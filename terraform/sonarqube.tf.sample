@@ -1,0 +1,19 @@
+module "sonarqube" {
+
+  #####################################
+  # Do not modify the following lines #
+  source = "./module-sonarqube"
+  env     = var.env
+  project = var.project
+  customer = var.customer
+  sonarqube_admin_password = var.sonarqube_admin_password
+  postgresql_password = var.postgresql_password
+  sonarqube_image_tag = var.sonarqube_image_tag
+  sonarqube_domain = var.sonarqube_domain
+  kubernetes_namespace= var.kubernetes_namespace
+  ssl_secretname = var.ssl_secretname
+  plugins_install = var.plugins_install
+  plugins_lib = var.plugins_lib
+  #####################################
+
+}

@@ -1,0 +1,113 @@
+---
+helm-s3-compatible:
+  pipeline:
+    Terraform:
+      - name: "S3 access key"
+        description: "S3 access key for Terraform."
+        key: s3_access_key
+        widget: cy_cred
+        type: string
+        default: "((aws.access_key))"
+        required: true
+      - name: "S3 secret key"
+        description: "S3 secret key for Terraform."
+        key: s3_secret_key
+        widget: cy_cred
+        type: string
+        default: "((aws.secret_key))"
+        required: true
+      - name: "S3 region"
+        description: "S3 region to use for Terraform."
+        key: s3_region
+        widget: auto_complete
+        type: string
+        values: ["eu-north-1","ap-south-1","eu-west-3","eu-west-2","eu-west-1","ap-northeast-2","ap-northeast-1","sa-east-1","ca-central-1","ap-southeast-1","ap-southeast-2","eu-central-1","us-east-1","us-east-2","us-west-1","us-west-2"]
+        default: eu-west-1
+        required: true
+      - name: "Terraform storage bucket"
+        description: "S3 bucket name to store terraform remote state file."
+        key: terraform_storage_bucket_name
+        widget: simple_text
+        type: string
+        default: ($ organization_canonical $)-terraform-remote-state
+        required: true
+      - name: "KubeConfig"
+        description: "Kubernetes KubeConfig file."
+        key: kubeconfig
+        widget: cy_cred
+        type: string
+        default: "((custom_kubeconfig))"
+        required: true
+      - name: "Sonarqube Admin Password"
+        description: "The Admin password used on Sonarqube"
+        key: sonarqube_admin_password
+        widget: cy_cred
+        type: string
+        default: "((custom_sonarqube-auth.password))"
+        required: true
+      - name: "Postgresql Password"
+        description: "The postgresql password used by Sonarqube."
+        key: postgresql_password
+        widget: cy_cred
+        type: string
+        default: "((custom_sonarqube-auth.postgresql_password))"
+        required: true
+      - name: "Sonarqube Image Tag"
+        description: "The version of Sonarqube to use."
+        key: sonarqube_image_tag
+        widget: simple_text
+        type: string
+        default: "8.5-community"
+      - name: "Sonarqube Domain"
+        description: "The domain to reach sonarqube. Ex: sonarqube.mycompany.tld ."
+        key: sonarqube_domain
+        widget: simple_text
+        type: string
+        required: true
+      - name: "Kubernetes Namespace"
+        description: "The namespace to create on kubernetes."
+        key: kubernetes_namespace
+        widget: simple_text
+        type: string
+        default: "sonarqube-community"
+      - name: "SSL Kubernetes Secret name"
+        description: "If you use HTTPS, you need to enter the ssl secret you will use."
+        key: ssl_secretname
+        widget: simple_text
+        type: string
+        required: true
+      - name: "Sonarqube Plugins"
+        description: "A list of Sonarqube plugins to install."
+        key: plugins_install
+        widget: text_area
+        type: array
+      - name: "Sonarqube Plugins to copy in lib directory"
+        description: "Some plugins needs an extra step, be installed in lib directory."
+        key: plugins_lib
+        widget: text_area
+        type: array
+        default: []
+    Repos:
+      - name: "Config repository"
+        key: config_git_repository
+        type: string
+        widget: cy_crs
+        description: "Git repository URL containing the config of the stack."
+        default: "git@github.com:MyUser/config.git"
+        required: true
+      - name: "Config git key"
+        description: "SSH key pair to fetch the config Git repository."
+        key: config_git_private_key
+        type: string
+        widget: cy_cred
+        default: "((ssh_config.ssh_key))"
+        required: true
+      - name: "Config branch"
+        description: "Branch of the config Git repository."
+        key: config_git_branch
+        widget: cy_branch
+        type: string
+        description: "The branch used by the config repository"
+        source: config_git_repository
+        default: "config"
+        required: true

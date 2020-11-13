@@ -1,0 +1,38 @@
+# Configuration of the CI pipeline
+version: '2'
+name: 'Sonarqube-Community'
+status: 'public'
+canonical: 'stack-sonarqube-community'
+description: |
+  Deploy a Sonarqube community instance on Kubernetes.
+keywords:
+  - 'helm'
+  - 'k8s'
+  - 'kubernetes'
+  - 'sonarqube'
+author: 'Cycloid'
+image: |
+  https://raw.githubusercontent.com/cycloid-community-catalog/stack-sonarqube/master/icon.png
+technologies:
+  - technology: Elasticsearch
+    version: n/a
+  - technology: PostgreSQL
+    version: n/a
+  - technology: Java
+    version: n/a
+type: 'stack'
+config:
+  helm-s3-compatible:
+    name: 'Helm, S3 storage'
+    description: 'Pipeline used to deploy Sonarqube using Helm'
+    pipeline:
+      pipeline:
+        path: 'pipeline/pipeline-s3-compatible.yml'
+      variables:
+        path: 'pipeline/variables-s3-compatible.sample.yml'
+        destination: '($ project $)/pipeline/variables-s3-compatible-($ environment $).yml'
+    # Configuration of terraform to setup the infrastructure
+    terraform:
+      sonarqube:
+        path: 'terraform/sonarqube.tf.sample'
+        destination: '($ project $)/terraform/($ environment $)/sonarqube.tf'
